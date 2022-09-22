@@ -60,6 +60,7 @@ public class MesureQuality {
                     csvData.add(packageName);
                     csvData.add(className);
                     csvOutList.addAll(Arrays.asList(csvData));
+                    int nvloc=nvloc(file);
                 }
             }
         }
@@ -86,6 +87,22 @@ public class MesureQuality {
         }
         return "unnamed package";
     }
+    static private int nvloc(File file){
+        try {
+            Scanner scan = new Scanner(file);
+            int NonEmptyLineNumber = 0;
+            while(scan.hasNextLine()) {
+                String line = scan.nextLine();
+                if (line.compareTo("") == 0)
+                    continue;
+                NonEmptyLineNumber++;
+            }
+            System.out.println(NonEmptyLineNumber);
+            return NonEmptyLineNumber;
+        } catch (FileNotFoundException e) {
+            throw new RuntimeException(e);
+        }
+    }
 
     public static void main(String[] args) throws IOException {
         String resourceName = "config.json";
@@ -98,6 +115,7 @@ public class MesureQuality {
         String projectPath = jsonObj.getString("PROJECT_PATH");
 
         File outCsv=jls(projectPath);
+
 
     }
 
