@@ -147,12 +147,12 @@ public class MesureQuality {
             int i = 0;
             for (String otherClassName : classNames) {
                 if (!className.equals(otherClassName)) {
-                    if (isMatched(otherClassName, classFile)) {
+                    if (isMentionned(otherClassName, classFile)) {
                         counter++;
                         i++;
                     } else {
                         File nonMatchedFile = new File(classPaths.get(i));
-                        if (isMatched(className, nonMatchedFile)) {
+                        if (isMentionned(className, nonMatchedFile)) {
                             counter++;
                         }
                         i++;
@@ -212,7 +212,7 @@ public class MesureQuality {
         return classNames;
     }
 
-    static private boolean isMatched(String className, File file) {
+    static private boolean isMentionned(String className, File file) {
         try {
             Scanner scan = new Scanner(file);
             while (scan.hasNextLine()) {
