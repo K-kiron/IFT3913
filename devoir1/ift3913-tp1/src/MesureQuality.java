@@ -5,6 +5,7 @@ import java.io.*;
 import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import java.util.stream.Collectors;
 
 
 public class MesureQuality {
@@ -33,15 +34,7 @@ public class MesureQuality {
                         int indexDot = fileName.lastIndexOf(".");
                         String className = fileName.substring(0, indexDot);
                         String packageName = getPackageName(file);
-                        String filePath = "";
-                        if (packageName != "unnamed package") {
-                            String fullPath = file.getPath();
-                            String pattern = packageName.replace('.', '/');
-                            int indexStart = fullPath.indexOf(pattern);
-                            filePath = "./" + fullPath.substring(indexStart);
-                        } else {
-                            filePath = "./" + className + ".java";
-                        }
+                        String filePath =file.getPath();
                         List<String> csvData = new ArrayList<>();
                         csvData.add(filePath);
                         csvData.add(packageName);
@@ -82,7 +75,7 @@ public class MesureQuality {
     static private File writeCSV(File file, List<List<String>> data) {
         try {
             for (List<String> csvOut : data) {
-                String csvFormat = String.join(", ", csvOut);
+                String csvFormat = String.join(",", csvOut);
                 System.out.println(csvFormat);
                 FileWriter writer = new FileWriter(file, true);
                 BufferedWriter out = new BufferedWriter(writer);
@@ -129,46 +122,45 @@ public class MesureQuality {
     }
 
     static private void lcsec(String path, File file) {
-        List<List<String>> jlsOutlist = readCSV(file);
-        List<String> classPaths = getClassPathsFromCSV(jlsOutlist, path);
-        List<String> classNames = getClassNamesFromCSV(jlsOutlist);
-        List<List<String>> outList = new ArrayList<>();
-        for (List<String> csvRow : jlsOutlist) {
-            int counter = 0;
-            List<String> newRow = new ArrayList<>();
-            String classRelativePath = csvRow.get(0);
-            String className = csvRow.get(2);
-            int startIndex = classRelativePath.indexOf("/");
-            int endIndex = path.lastIndexOf("/");
-            String fullPath = path.substring(0, endIndex).trim() + classRelativePath.substring(startIndex).trim();
-            File classFile = new File(fullPath);
-            System.out.println(classFile.getName());
-            int i = 0;
-            for (String otherClassName : classNames) {
-                if (!className.equals(otherClassName)) {
-                    if (isMentioned(otherClassName, classFile)) {
-                        counter++;
-                        i++;
-                    } else {
-                        File nonMatchedFile = new File(classPaths.get(i));
-                        if (isMentioned(className, nonMatchedFile)) {
-                            counter++;
+        try {
+            List<List<String>> jlsOutlist = readCSV(file);
+            List<String> classPaths = getColDataFromCSV(jlsOutlist,0);
+            List<String> classNames = getColDataFromCSV(jlsOutlist,2);
+            List<List<String>> outList = new ArrayList<>();
+            for (List<String> csvRow : jlsOutlist) {
+                int counter = 0;
+                List<String> newRow = new ArrayList<>();
+                String classPath = csvRow.get(0);
+                String className = csvRow.get(2);
+                File classFile = new File(classPath);
+
+                int i = 0;//classPaths index
+                for (String otherClassName : classNames) {
+                    if (!className.equals(otherClassName)) {
+                        if (isMentioned(otherClassName, classFile)) {
+                            counter++;//mentioned counter
+                            i++;
+                        } else {
+                            File nonMentionedFile = new File(classPaths.get(i));
+                            if (isMentioned(className, nonMentionedFile)) {
+                                counter++;
+                            }
+                            i++;
                         }
+                    } else {
                         i++;
                     }
-                } else {
-                    i++;
                 }
+                String CSEC = Integer.toString(counter);
+                newRow.addAll(csvRow);
+                newRow.addAll(Collections.singleton(CSEC));
+                outList.add(newRow);
             }
-            String CSEC = Integer.toString(counter);
-            newRow.addAll(csvRow);
-            newRow.addAll(Collections.singleton(CSEC));
-            outList.add(newRow);
+            clearCSV(file);
+            writeCSV(file, outList);
+        }catch (Exception ex) {
+            ex.printStackTrace();
         }
-        clearCSV(file);
-        writeCSV(file, outList);
-
-
     }
 
 
@@ -189,26 +181,12 @@ public class MesureQuality {
             throw new RuntimeException(e);
         }
     }
-
-    static private List<String> getClassPathsFromCSV(List<List<String>> data, String path) {
-        List<String> fullPaths = new ArrayList<>();
+    static private List<String> getColDataFromCSV(List<List<String>> data,int colIndex) {
+        List<String> colData = new ArrayList<>();
         for (List<String> csvRow : data) {
-            String classRelativePath = csvRow.get(0);
-            int startIndex = classRelativePath.indexOf("/");
-            int endIndex = path.lastIndexOf("/");
-            String fullPath = path.substring(0, endIndex).trim() + classRelativePath.substring(startIndex).trim();
-            fullPaths.add(fullPath);
+            colData.add(csvRow.get(colIndex));
         }
-        return fullPaths;
-    }
-
-    static private List<String> getClassNamesFromCSV(List<List<String>> data) {
-        List<String> classNames = new ArrayList<>();
-        for (List<String> csvRow : data) {
-            String className = csvRow.get(2);
-            classNames.add(className);
-        }
-        return classNames;
+        return colData;
     }
 
     static private boolean isMentioned(String className, File file) {
@@ -239,11 +217,8 @@ public class MesureQuality {
         List<List<String>> lcsecOutlist = readCSV(out);
         List<List<String>> outList = new ArrayList<>();
         for (List<String> csvRow : lcsecOutlist) {
-            String classRelativePath = csvRow.get(0);
-            int startIndex = classRelativePath.indexOf("/");
-            int endIndex = path.lastIndexOf("/");
-            String fullPath = path.substring(0, endIndex).trim() + classRelativePath.substring(startIndex).trim();
-            File classFile = new File(fullPath);
+            String classPath = csvRow.get(0);
+            File classFile = new File(classPath);
             int nvlocInt = nvloc(classFile);
             String nvloc = Integer.toString(nvlocInt);
             List<String> newRow = new ArrayList<>();
@@ -253,6 +228,14 @@ public class MesureQuality {
         }
         clearCSV(out);
         writeCSV(out, outList);
+        List<String> CSECs=getColDataFromCSV(outList,3);
+        List<String> NVLOCs=getColDataFromCSV(outList,4);
+//        for(List<String> row:outList){
+//
+//
+//        }
+        
+
     }
 
     public static void main(String[] args) {
