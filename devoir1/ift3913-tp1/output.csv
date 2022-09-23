@@ -1,27 +1,10 @@
-./gr/spinellis/ckjm/ant/CkjmTask.java, gr.spinellis.ckjm.ant, CkjmTask
-./gr/spinellis/ckjm/ant/PrintXmlResults.java, gr.spinellis.ckjm.ant, PrintXmlResults
-./gr/spinellis/ckjm/MetricsFilter.java, gr.spinellis.ckjm, MetricsFilter
-./gr/spinellis/ckjm/ClassMetrics.java, gr.spinellis.ckjm, ClassMetrics
-./gr/spinellis/ckjm/MethodVisitor.java, gr.spinellis.ckjm, MethodVisitor
-./gr/spinellis/ckjm/PrintPlainResults.java, gr.spinellis.ckjm, PrintPlainResults
-./gr/spinellis/ckjm/ClassVisitor.java, gr.spinellis.ckjm, ClassVisitor
-./gr/spinellis/ckjm/ClassMetricsContainer.java, gr.spinellis.ckjm, ClassMetricsContainer
-./gr/spinellis/ckjm/CkjmOutputHandler.java, gr.spinellis.ckjm, CkjmOutputHandler
-./gr/spinellis/ckjm/ant/CkjmTask.java, gr.spinellis.ckjm.ant, CkjmTask
-./gr/spinellis/ckjm/ant/PrintXmlResults.java, gr.spinellis.ckjm.ant, PrintXmlResults
-./gr/spinellis/ckjm/MetricsFilter.java, gr.spinellis.ckjm, MetricsFilter
-./gr/spinellis/ckjm/ClassMetrics.java, gr.spinellis.ckjm, ClassMetrics
-./gr/spinellis/ckjm/MethodVisitor.java, gr.spinellis.ckjm, MethodVisitor
-./gr/spinellis/ckjm/PrintPlainResults.java, gr.spinellis.ckjm, PrintPlainResults
-./gr/spinellis/ckjm/ClassVisitor.java, gr.spinellis.ckjm, ClassVisitor
-./gr/spinellis/ckjm/ClassMetricsContainer.java, gr.spinellis.ckjm, ClassMetricsContainer
-./gr/spinellis/ckjm/CkjmOutputHandler.java, gr.spinellis.ckjm, CkjmOutputHandler
-./gr/spinellis/ckjm/ant/CkjmTask.java, gr.spinellis.ckjm.ant, CkjmTask
-./gr/spinellis/ckjm/ant/PrintXmlResults.java, gr.spinellis.ckjm.ant, PrintXmlResults
-./gr/spinellis/ckjm/MetricsFilter.java, gr.spinellis.ckjm, MetricsFilter
-./gr/spinellis/ckjm/ClassMetrics.java, gr.spinellis.ckjm, ClassMetrics
-./gr/spinellis/ckjm/MethodVisitor.java, gr.spinellis.ckjm, MethodVisitor
-./gr/spinellis/ckjm/PrintPlainResults.java, gr.spinellis.ckjm, PrintPlainResults
-./gr/spinellis/ckjm/ClassVisitor.java, gr.spinellis.ckjm, ClassVisitor
-./gr/spinellis/ckjm/ClassMetricsContainer.java, gr.spinellis.ckjm, ClassMetricsContainer
-./gr/spinellis/ckjm/CkjmOutputHandler.java, gr.spinellis.ckjm, CkjmOutputHandler
+
+./gr/spinellis/ckjm/ant/CkjmTask.java,   gr.spinellis.ckjm.ant,   CkjmTask,  3, 152
+./gr/spinellis/ckjm/ant/PrintXmlResults.java,   gr.spinellis.ckjm.ant,   PrintXmlResults,  3, 50
+./gr/spinellis/ckjm/MetricsFilter.java,   gr.spinellis.ckjm,   MetricsFilter,  6, 118
+./gr/spinellis/ckjm/ClassMetrics.java,   gr.spinellis.ckjm,   ClassMetrics,  7, 123
+./gr/spinellis/ckjm/MethodVisitor.java,   gr.spinellis.ckjm,   MethodVisitor,  2, 109
+./gr/spinellis/ckjm/PrintPlainResults.java,   gr.spinellis.ckjm,   PrintPlainResults,  4, 30
+./gr/spinellis/ckjm/ClassVisitor.java,   gr.spinellis.ckjm,   ClassVisitor,  4, 189
+./gr/spinellis/ckjm/ClassMetricsContainer.java,   gr.spinellis.ckjm,   ClassMetricsContainer,  3, 53
+./gr/spinellis/ckjm/CkjmOutputHandler.java,   gr.spinellis.ckjm,   CkjmOutputHandler,  4, 32
