@@ -5,7 +5,6 @@ import java.io.*;
 import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-import java.util.stream.Collectors;
 
 
 public class MesureQuality {
@@ -147,12 +146,12 @@ public class MesureQuality {
             int i = 0;
             for (String otherClassName : classNames) {
                 if (!className.equals(otherClassName)) {
-                    if (isMentionned(otherClassName, classFile)) {
+                    if (isMentioned(otherClassName, classFile)) {
                         counter++;
                         i++;
                     } else {
                         File nonMatchedFile = new File(classPaths.get(i));
-                        if (isMentionned(className, nonMatchedFile)) {
+                        if (isMentioned(className, nonMatchedFile)) {
                             counter++;
                         }
                         i++;
@@ -212,7 +211,7 @@ public class MesureQuality {
         return classNames;
     }
 
-    static private boolean isMentionned(String className, File file) {
+    static private boolean isMentioned(String className, File file) {
         try {
             Scanner scan = new Scanner(file);
             while (scan.hasNextLine()) {
