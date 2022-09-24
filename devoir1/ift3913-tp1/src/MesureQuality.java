@@ -223,7 +223,7 @@ public class MesureQuality {
         return false;
     }
 
-    static private void egon(String path, double threshold) {
+    static private void egon(String path, double seuil) {
         File out = jls(path);
         lcsec(path, out);
         List<List<String>> lcsecOutlist = readCSV(out);
@@ -240,15 +240,30 @@ public class MesureQuality {
         }
         clearCSV(out);
         writeCSV(out, outList);
+        List<List<String>> egonResult = new ArrayList<>();
+        List<String> newline = new ArrayList<>();
+        egonResult.add(newline);
+        List<String> egonTitle = new ArrayList<>(Collections.singleton(seuil + " seul:"));
+        egonResult.add(egonTitle);
         List<String> CSECs=getColDataFromCSVTable(outList,3);
         List<String> NVLOCs=getColDataFromCSVTable(outList,4);
+        CSECs.sort(Collections.reverseOrder());
+        NVLOCs.sort(Collections.reverseOrder());
+        boolean egonExist = false;
         for(List<String> row:outList){
-
-
-
+            String csec = row.get(3);
+            String nvloc = row.get(4);
+            if (CSECs.indexOf(csec)%CSECs.size()<=seuil&&
+                NVLOCs.indexOf(nvloc)%NVLOCs.size()<=seuil){
+                egonResult.add(row);
+                egonExist = true;
+            }
         }
-        
-
+        if (!egonExist){
+            List<String> none = new ArrayList<>(Collections.singleton("NONE"));
+            egonResult.add(none);
+        }
+        writeCSV(out,egonResult);
     }
 
     public static void main(String[] args) {
