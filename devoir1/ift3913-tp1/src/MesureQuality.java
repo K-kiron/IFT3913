@@ -241,20 +241,25 @@ public class MesureQuality {
         clearCSV(out);
         writeCSV(out, outList);
         List<List<String>> egonResult = new ArrayList<>();
-        List<String> newline = new ArrayList<>();
-        egonResult.add(newline);
+        List<String> newLine = new ArrayList<>();
+        egonResult.add(newLine);
         List<String> egonTitle = new ArrayList<>(Collections.singleton(seuil + " seul:"));
         egonResult.add(egonTitle);
-        List<String> CSECs=getColDataFromCSVTable(outList,3);
-        List<String> NVLOCs=getColDataFromCSVTable(outList,4);
+        List<String> CSECsString=getColDataFromCSVTable(outList,3);
+        List<String> NVLOCsString=getColDataFromCSVTable(outList,4);
+        List<Integer> CSECs = new ArrayList<>();
+        List<Integer> NVLOCs = new ArrayList<>();
+        for(String s : CSECsString) CSECs.add(Integer.valueOf(s));
+        for(String s : NVLOCsString) NVLOCs.add(Integer.valueOf(s));
         CSECs.sort(Collections.reverseOrder());
         NVLOCs.sort(Collections.reverseOrder());
         boolean egonExist = false;
         for(List<String> row:outList){
-            String csec = row.get(3);
-            String nvloc = row.get(4);
-            if (CSECs.indexOf(csec)%CSECs.size()<=seuil&&
-                NVLOCs.indexOf(nvloc)%NVLOCs.size()<=seuil){
+            int csecIndex = CSECs.indexOf(Integer.parseInt(row.get(3)))+1;
+            int nvlocIndex = NVLOCs.indexOf(Integer.parseInt(row.get(4)))+1;
+            double csecRank = (double)csecIndex/CSECs.size();
+            double nvlocRank = (double)nvlocIndex/NVLOCs.size();
+            if (csecRank<=seuil&&nvlocRank<=seuil){
                 egonResult.add(row);
                 egonExist = true;
             }
@@ -276,7 +281,7 @@ public class MesureQuality {
         JSONObject jsonObj = new JSONObject(tokener);
         String projectPath = jsonObj.getString("PROJECT_PATH");
 
-        double threshold = 0.1;
+        double threshold = 0.4;
         egon(projectPath, threshold);
     }
 
