@@ -124,8 +124,8 @@ public class MesureQuality {
     static private void lcsec(String path, File file) {
         try {
             List<List<String>> jlsOutlist = readCSV(file);
-            List<String> classPaths = getColDataFromCSV(jlsOutlist,0);
-            List<String> classNames = getColDataFromCSV(jlsOutlist,2);
+            List<String> classPaths = getColDataFromCSVTable(jlsOutlist,0);
+            List<String> classNames = getColDataFromCSVTable(jlsOutlist,2);
             List<List<String>> outList = new ArrayList<>();
             for (List<String> csvRow : jlsOutlist) {
                 int counter = 0;
@@ -181,7 +181,7 @@ public class MesureQuality {
             throw new RuntimeException(e);
         }
     }
-    static private List<String> getColDataFromCSV(List<List<String>> data,int colIndex) {
+    static private List<String> getColDataFromCSVTable(List<List<String>> data,int colIndex) {
         List<String> colData = new ArrayList<>();
         for (List<String> csvRow : data) {
             colData.add(csvRow.get(colIndex));
@@ -228,12 +228,13 @@ public class MesureQuality {
         }
         clearCSV(out);
         writeCSV(out, outList);
-        List<String> CSECs=getColDataFromCSV(outList,3);
-        List<String> NVLOCs=getColDataFromCSV(outList,4);
-//        for(List<String> row:outList){
-//
-//
-//        }
+        List<String> CSECs=getColDataFromCSVTable(outList,3);
+        List<String> NVLOCs=getColDataFromCSVTable(outList,4);
+        for(List<String> row:outList){
+
+
+
+        }
         
 
     }
