@@ -189,6 +189,9 @@ public class MesureQuality {
         return colData;
     }
 
+//    isMentioned(c1,c2) is true if the name of c2 is mentioned in the code of c1. This can happen for various reasons:
+//    c1 declares an object of type c2, has a method with a parameter of type c2, calls a method of an object of type
+//    c2, calls a static method of c2, accesses an attribute of c2, etc.
     static private boolean isMentioned(String className, File file) {
         try {
             Scanner scan = new Scanner(file);
@@ -197,11 +200,20 @@ public class MesureQuality {
                 if (line.compareTo("") == 0)
                     continue;
                 String pattern = className;
-                Pattern r = Pattern.compile(pattern);
-                Matcher m = r.matcher(line);
-                if (m.find()) {
-                    scan.close();
-                    return true;
+
+                for (int switchcase=0;switchcase<3;switchcase++) {
+                    Pattern r = switch (switchcase) {
+                        case 0 -> Pattern.compile(" " + pattern);
+                        case 1 -> Pattern.compile(pattern + " ");
+                        case 2 -> Pattern.compile(pattern + ".");
+                        default -> Pattern.compile(pattern);
+                    };
+                    //Pattern r = Pattern.compile(pattern);
+                    Matcher m = r.matcher(line);
+                    if (m.find()) {
+                        scan.close();
+                        return true;
+                    }
                 }
             }
             scan.close();
