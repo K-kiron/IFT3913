@@ -5,7 +5,6 @@ import java.io.*;
 import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-import java.util.stream.Collectors;
 
 
 public class MesureQuality {
@@ -39,7 +38,7 @@ public class MesureQuality {
                         csvData.add(filePath);
                         csvData.add(packageName);
                         csvData.add(className);
-                        csvOutList.addAll(Arrays.asList(csvData));
+                        csvOutList.addAll(List.of(csvData));
                     }
                 }
             }
@@ -82,8 +81,6 @@ public class MesureQuality {
                 out.write(csvFormat);
                 out.newLine();
                 out.close();
-//            System.out.println(csvOut.stream().map(Object::toString).
-//                    collect(Collectors.joining(",")));
             }
             return file;
         } catch (IOException e) {
@@ -91,14 +88,13 @@ public class MesureQuality {
         }
     }
 
-    static private File clearCSV(File file) {
+    static private void clearCSV(File file) {
         try {
             FileWriter writer = new FileWriter(file);
             BufferedWriter out = new BufferedWriter(writer);
             out.write("");
             out.newLine();
             out.close();
-            return file;
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
@@ -189,9 +185,7 @@ public class MesureQuality {
         return colData;
     }
 
-//    isMentioned(c1,c2) is true if the name of c2 is mentioned in the code of c1. This can happen for various reasons:
-//    c1 declares an object of type c2, has a method with a parameter of type c2, calls a method of an object of type
-//    c2, calls a static method of c2, accesses an attribute of c2, etc.
+//    isMentioned(c1,c2) is true if the name of c1 is mentioned in the code of c2.
     static private boolean isMentioned(String className, File file) {
         try {
             Scanner scan = new Scanner(file);
@@ -199,22 +193,15 @@ public class MesureQuality {
                 String line = scan.nextLine();
                 if (line.compareTo("") == 0)
                     continue;
-                String pattern = className;
 
-                for (int switchcase=0;switchcase<3;switchcase++) {
-                    Pattern r = switch (switchcase) {
-                        case 0 -> Pattern.compile(" " + pattern);
-                        case 1 -> Pattern.compile(pattern + " ");
-                        case 2 -> Pattern.compile(pattern + ".");
-                        default -> Pattern.compile(pattern);
-                    };
-                    //Pattern r = Pattern.compile(pattern);
-                    Matcher m = r.matcher(line);
-                    if (m.find()) {
-                        scan.close();
-                        return true;
-                    }
+                //String pattern = className;
+                Pattern r = Pattern.compile(className);
+               Matcher m = r.matcher(line);
+                if (m.find()) {
+                    scan.close();
+                    return true;
                 }
+
             }
             scan.close();
         } catch (FileNotFoundException e) {
@@ -240,11 +227,11 @@ public class MesureQuality {
         }
         clearCSV(out);
         writeCSV(out, outList);
+
+
         List<List<String>> egonResult = new ArrayList<>();
         List<String> newLine = new ArrayList<>();
         egonResult.add(newLine);
-        List<String> egonTitle = new ArrayList<>(Collections.singleton(seuil + " seul:"));
-        egonResult.add(egonTitle);
         List<String> CSECsString=getColDataFromCSVTable(outList,3);
         List<String> NVLOCsString=getColDataFromCSVTable(outList,4);
         List<Integer> CSECs = new ArrayList<>();
@@ -253,22 +240,39 @@ public class MesureQuality {
         for(String s : NVLOCsString) NVLOCs.add(Integer.valueOf(s));
         CSECs.sort(Collections.reverseOrder());
         NVLOCs.sort(Collections.reverseOrder());
-        boolean egonExist = false;
-        for(List<String> row:outList){
-            int csecIndex = CSECs.indexOf(Integer.parseInt(row.get(3)))+1;
-            int nvlocIndex = NVLOCs.indexOf(Integer.parseInt(row.get(4)))+1;
-            double csecRank = (double)csecIndex/CSECs.size();
-            double nvlocRank = (double)nvlocIndex/NVLOCs.size();
-            if (csecRank<=seuil&&nvlocRank<=seuil){
+        boolean isSuspecte = false;
+
+        //Print the results of seuil 1%,5%,10%, avoid repeated output of the same file list(call egon() 3 times)
+        if (seuil==0.01){
+            Double[] seuils = {0.01,0.05,0.1};
+            for (double threshold:seuils){
+                isSuspecte(outList, egonResult, CSECs, NVLOCs, isSuspecte, threshold);
+                egonResult.add(newLine);
+            }
+        }else {
+            isSuspecte(outList, egonResult, CSECs, NVLOCs, isSuspecte, seuil);
+        }
+        writeCSV(out,egonResult);
+    }
+
+    private static void isSuspecte(List<List<String>> outList, List<List<String>> egonResult, List<Integer> CSECs,
+                                   List<Integer> NVLOCs, boolean isSuspecte, double threshold) {
+        List<String> egonTitle = new ArrayList<>(Collections.singleton(threshold + " seuil:"));
+        egonResult.add(egonTitle);
+        for (List<String> row : outList) {
+            int csecIndex = CSECs.indexOf(Integer.parseInt(row.get(3))) + 1;
+            int nvlocIndex = NVLOCs.indexOf(Integer.parseInt(row.get(4))) + 1;
+            double csecRank = (double) csecIndex / CSECs.size();
+            double nvlocRank = (double) nvlocIndex / NVLOCs.size();
+            if (csecRank <= threshold && nvlocRank <= threshold) {
                 egonResult.add(row);
-                egonExist = true;
+                isSuspecte = true;
             }
         }
-        if (!egonExist){
+        if (!isSuspecte) {
             List<String> none = new ArrayList<>(Collections.singleton("NONE"));
             egonResult.add(none);
         }
-        writeCSV(out,egonResult);
     }
 
     public static void main(String[] args) {
@@ -281,7 +285,7 @@ public class MesureQuality {
         JSONObject jsonObj = new JSONObject(tokener);
         String projectPath = jsonObj.getString("PROJECT_PATH");
 
-        double threshold = 0.4;
+        double threshold = 0.01;//seuil
         egon(projectPath, threshold);
     }
 
