@@ -1,0 +1,7 @@
+La fonction egon() que nous utilisons dans PARTIE3 ne trouve pas vraiment la classe 
+divine. En fait, de nombreuses classes divines n'ont pas nécessairement autant de 
+lignes non vides (une classe divine agrège de nombreuses fonctions ou objets qui sont 
+appelés plusieurs fois, ou appelle de multiples objets ou fonctions dans d'autres 
+classes, mais aucune n'a autant plus de lignes non vides que l'autre classe qui n'est 
+pas une classe divine). La suppression du critère NVLOC nous aidera à mieux trouver 
+les classes divines.
