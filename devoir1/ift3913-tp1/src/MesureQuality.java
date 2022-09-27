@@ -225,8 +225,8 @@ public class MesureQuality {
             newRow.addAll(Collections.singleton(nvloc));
             outList.add(newRow);
         }
-        clearCSV(out);
-        writeCSV(out, outList);
+//        clearCSV(out);
+//        writeCSV(out, outList);
 
 
         List<List<String>> egonResult = new ArrayList<>();
@@ -242,16 +242,8 @@ public class MesureQuality {
         NVLOCs.sort(Collections.reverseOrder());
         boolean isSuspecte = false;
 
-        //Print the results of seuil 1%,5%,10%, avoid repeated output of the same file list(call egon() 3 times)
-        if (seuil==0.01){
-            Double[] seuils = {0.01,0.05,0.1};
-            for (double threshold:seuils){
-                isSuspecte(outList, egonResult, CSECs, NVLOCs, isSuspecte, threshold);
-                egonResult.add(newLine);
-            }
-        }else {
-            isSuspecte(outList, egonResult, CSECs, NVLOCs, isSuspecte, seuil);
-        }
+        isSuspecte(outList, egonResult, CSECs, NVLOCs, isSuspecte, seuil);
+        clearCSV(out);
         writeCSV(out,egonResult);
     }
 
@@ -285,7 +277,7 @@ public class MesureQuality {
         JSONObject jsonObj = new JSONObject(tokener);
         String projectPath = jsonObj.getString("PROJECT_PATH");
 
-        double threshold = 0.01;//seuil
+        double threshold = 0.1;//seuil
         egon(projectPath, threshold);
     }
 
