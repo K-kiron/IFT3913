@@ -1,0 +1,19 @@
+
+
+5% seuil:
+/Users/kironrothschild/Downloads/jfreechart-master/src/main/java/org/jfree/chart/ChartFactory.java,org.jfree.chart,ChartFactory,108,1887
+/Users/kironrothschild/Downloads/jfreechart-master/src/main/java/org/jfree/chart/legend/LegendItem.java,org.jfree.chart.legend,LegendItem,56,984
+/Users/kironrothschild/Downloads/jfreechart-master/src/main/java/org/jfree/chart/renderer/category/BarRenderer.java,org.jfree.chart.renderer.category,BarRenderer,63,1202
+/Users/kironrothschild/Downloads/jfreechart-master/src/main/java/org/jfree/chart/renderer/category/AbstractCategoryItemRenderer.java,org.jfree.chart.renderer.category,AbstractCategoryItemRenderer,65,1550
+/Users/kironrothschild/Downloads/jfreechart-master/src/main/java/org/jfree/chart/renderer/xy/XYItemRenderer.java,org.jfree.chart.renderer.xy,XYItemRenderer,68,1327
+/Users/kironrothschild/Downloads/jfreechart-master/src/main/java/org/jfree/chart/renderer/xy/AbstractXYItemRenderer.java,org.jfree.chart.renderer.xy,AbstractXYItemRenderer,72,1526
+/Users/kironrothschild/Downloads/jfreechart-master/src/main/java/org/jfree/chart/plot/pie/PiePlot.java,org.jfree.chart.plot.pie,PiePlot,55,2921
+/Users/kironrothschild/Downloads/jfreechart-master/src/main/java/org/jfree/chart/plot/CategoryPlot.java,org.jfree.chart.plot,CategoryPlot,92,4527
+/Users/kironrothschild/Downloads/jfreechart-master/src/main/java/org/jfree/chart/plot/XYPlot.java,org.jfree.chart.plot,XYPlot,110,4985
+/Users/kironrothschild/Downloads/jfreechart-master/src/main/java/org/jfree/chart/plot/Plot.java,org.jfree.chart.plot,Plot,212,1323
+/Users/kironrothschild/Downloads/jfreechart-master/src/main/java/org/jfree/chart/JFreeChart.java,org.jfree.chart,JFreeChart,637,1517
+/Users/kironrothschild/Downloads/jfreechart-master/src/main/java/org/jfree/chart/StandardChartTheme.java,org.jfree.chart,StandardChartTheme,65,1644
+/Users/kironrothschild/Downloads/jfreechart-master/src/main/java/org/jfree/chart/axis/CategoryAxis.java,org.jfree.chart.axis,CategoryAxis,60,1300
+/Users/kironrothschild/Downloads/jfreechart-master/src/main/java/org/jfree/chart/axis/Axis.java,org.jfree.chart.axis,Axis,145,1547
+/Users/kironrothschild/Downloads/jfreechart-master/src/main/java/org/jfree/chart/axis/ValueAxis.java,org.jfree.chart.axis,ValueAxis,117,1524
+/Users/kironrothschild/Downloads/jfreechart-master/src/main/java/org/jfree/data/general/DatasetUtils.java,org.jfree.data.general,DatasetUtils,59,2330

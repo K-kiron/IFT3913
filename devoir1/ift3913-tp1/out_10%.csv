@@ -1,6 +1,6 @@
 
 
-0.1 seuil:
+10% seuil:
 /Users/kironrothschild/Downloads/jfreechart-master/src/main/java/org/jfree/chart/ChartFactory.java,org.jfree.chart,ChartFactory,108,1887
 /Users/kironrothschild/Downloads/jfreechart-master/src/main/java/org/jfree/chart/legend/LegendItem.java,org.jfree.chart.legend,LegendItem,56,984
 /Users/kironrothschild/Downloads/jfreechart-master/src/main/java/org/jfree/chart/renderer/category/LineAndShapeRenderer.java,org.jfree.chart.renderer.category,LineAndShapeRenderer,38,774

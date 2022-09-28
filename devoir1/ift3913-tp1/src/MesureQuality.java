@@ -5,6 +5,7 @@ import java.io.*;
 import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import java.text.NumberFormat;
 
 
 public class MesureQuality {
@@ -210,8 +211,16 @@ public class MesureQuality {
         return false;
     }
 
-    static private void egon(String path, double seuil) {
+    static private void egon(String path, double seuil) throws IOException {
         File out = jls(path);
+
+        NumberFormat format = NumberFormat.getPercentInstance();
+        format.setMaximumFractionDigits(2);
+        File egonFile = new File("out_"+format.format(seuil)+".csv");
+        if (egonFile.exists()){
+            throw new java.io.IOException("File exist.");
+        }
+
         lcsec(path, out);
         List<List<String>> lcsecOutlist = readCSV(out);
         List<List<String>> outList = new ArrayList<>();
@@ -245,11 +254,17 @@ public class MesureQuality {
         isSuspecte(outList, egonResult, CSECs, NVLOCs, isSuspecte, seuil);
         clearCSV(out);
         writeCSV(out,egonResult);
+
+        if (!out.renameTo(egonFile)){
+            throw new java.io.IOException("rename ERROR");
+        }
     }
 
     private static void isSuspecte(List<List<String>> outList, List<List<String>> egonResult, List<Integer> CSECs,
                                    List<Integer> NVLOCs, boolean isSuspecte, double threshold) {
-        List<String> egonTitle = new ArrayList<>(Collections.singleton(threshold + " seuil:"));
+        NumberFormat format = NumberFormat.getPercentInstance();
+        format.setMaximumFractionDigits(2);
+        List<String> egonTitle = new ArrayList<>(Collections.singleton(format.format(threshold) + " seuil:"));
         egonResult.add(egonTitle);
         for (List<String> row : outList) {
             int csecIndex = CSECs.indexOf(Integer.parseInt(row.get(3))) + 1;
@@ -267,7 +282,7 @@ public class MesureQuality {
         }
     }
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws IOException {
         String resourceName = "config.json";
         InputStream inputStream = MesureQuality.class.getResourceAsStream(resourceName);
         if (inputStream == null) {
