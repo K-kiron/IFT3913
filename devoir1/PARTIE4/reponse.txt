@@ -1,7 +1,18 @@
-La fonction egon() que nous utilisons dans PARTIE3 ne trouve pas vraiment la classe 
-divine. En fait, de nombreuses classes divines n'ont pas nécessairement autant de 
+Selon la définition de l'heuristique "Une heuristique, ou technique heuristique, est 
+toute approche de la résolution de problèmes ou de la découverte de soi qui emploie 
+une méthode pratique dont on ne garantit pas qu'elle soit optimale, parfaite ou rationnelle, 
+mais qui est néanmoins suffisante pour atteindre un objectif ou une approximation immédiate 
+et à court terme." Nous avons pu trouver des classes divines par l'heuristique d'egon le plus 
+rapidement possible, mais pas de manière optimale.
+
+En fait, de nombreuses classes divines n'ont pas nécessairement autant de 
 lignes non vides (une classe divine agrège de nombreuses fonctions ou objets qui sont 
 appelés plusieurs fois, ou appelle de multiples objets ou fonctions dans d'autres 
 classes, mais aucune n'a autant plus de lignes non vides que l'autre classe qui n'est 
-pas une classe divine). La suppression du critère NVLOC nous aidera à mieux trouver 
-les classes divines.
+pas une classe divine). Une discussion catégorique des critères d'évaluation des NVLOC nous 
+aide à optimiser cet algorithme. Par exemple, si une classe est classée dans les 1% supérieurs 
+du CSTC, mais que son NVLOC ne se situe que dans les 60% supérieurs. Dans ce cas, nous le 
+considérons comme une classe divine même s'il n'a pas un classement NVLOC supérieur, parce 
+qu'il remplit la condition pour une classe divine (top 1% CSEC) : Un objet divin est, dans 
+le domaine de la programmation orientée objet, un objet qui reconnaît trop de choses ou fait 
+trop de choses. Le god object est un exemple d'antipattern (ou anti-patron).
