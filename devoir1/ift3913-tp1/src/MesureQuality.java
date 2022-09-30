@@ -76,7 +76,7 @@ public class MesureQuality {
         try {
             for (List<String> csvOut : data) {
                 String csvFormat = String.join(",", csvOut);
-                System.out.println(csvFormat);
+//                System.out.println(csvFormat);
                 FileWriter writer = new FileWriter(file, true);
                 BufferedWriter out = new BufferedWriter(writer);
                 out.write(csvFormat);
@@ -111,7 +111,7 @@ public class MesureQuality {
                     continue;
                 NonEmptyLineNumber++;
             }
-            System.out.println(NonEmptyLineNumber);
+//            System.out.println(NonEmptyLineNumber);
             return NonEmptyLineNumber;
         } catch (FileNotFoundException e) {
             throw new RuntimeException(e);
@@ -284,6 +284,7 @@ public class MesureQuality {
 
     public static void main(String[] args) throws IOException {
 
+//        java run version(use config.json to set path and threshold):
 //        String resourceName = "config.json";
 //        InputStream inputStream = MesureQuality.class.getResourceAsStream(resourceName);
 //        if (inputStream == null) {
@@ -294,7 +295,10 @@ public class MesureQuality {
 //        String projectPath = jsonObj.getString("PROJECT_PATH");
 //
 //        double threshold = 0.1;//seuil
+//        egon(projectPath, threshold);
 
+
+        //jar version:
         try{
             if (args!=null&&args.length>0){
                 String projectPath = args[0];
