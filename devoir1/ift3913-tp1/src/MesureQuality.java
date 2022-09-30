@@ -283,17 +283,28 @@ public class MesureQuality {
     }
 
     public static void main(String[] args) throws IOException {
-        String resourceName = "config.json";
-        InputStream inputStream = MesureQuality.class.getResourceAsStream(resourceName);
-        if (inputStream == null) {
-            throw new NullPointerException("Cannot find resource file " + resourceName);
-        }
-        JSONTokener tokener = new JSONTokener(inputStream);
-        JSONObject jsonObj = new JSONObject(tokener);
-        String projectPath = jsonObj.getString("PROJECT_PATH");
 
-        double threshold = 0.1;//seuil
-        egon(projectPath, threshold);
+//        String resourceName = "config.json";
+//        InputStream inputStream = MesureQuality.class.getResourceAsStream(resourceName);
+//        if (inputStream == null) {
+//            throw new NullPointerException("Cannot find resource file " + resourceName);
+//        }
+//        JSONTokener tokener = new JSONTokener(inputStream);
+//        JSONObject jsonObj = new JSONObject(tokener);
+//        String projectPath = jsonObj.getString("PROJECT_PATH");
+//
+//        double threshold = 0.1;//seuil
+
+        try{
+            if (args!=null&&args.length>0){
+                String projectPath = args[0];
+                double threshold = Double.parseDouble(args[1]);
+                egon(projectPath, threshold);
+            }
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+
     }
 
 }
