@@ -115,22 +115,11 @@ public class GQM {
         }
     }
 
-    static private List<String> getColDataFromCSVTable(List<List<String>> data, int colIndex) {
-        List<String> colData = new ArrayList<>();
-        for (List<String> csvRow : data) {
-            colData.add(csvRow.get(colIndex));
-        }
-        return colData;
-    }
-
-    static private int nvloc(File file) {
+    static private int loc(File file) {
         try {
             Scanner scan = new Scanner(file);
             int NonEmptyLineNumber = 0;
             while (scan.hasNextLine()) {
-                String line = scan.nextLine();
-                if (line.compareTo("") == 0)
-                    continue;
                 NonEmptyLineNumber++;
             }
             return NonEmptyLineNumber;
