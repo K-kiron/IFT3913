@@ -10,7 +10,7 @@ public class GQM {
     static private File jls(String path) {
         List<List<String>> csvOutList = new ArrayList<>();
         getCsvData(path, csvOutList);
-        File file = new File("output.csv");
+        File file = new File("loc.csv");
         clearCSV(file);
         file = writeCSV(file, csvOutList);
         return file;
@@ -118,11 +118,12 @@ public class GQM {
     static private int loc(File file) {
         try {
             Scanner scan = new Scanner(file);
-            int NonEmptyLineNumber = 0;
+            int lineNumber = 0;
             while (scan.hasNextLine()) {
-                NonEmptyLineNumber++;
+                String line = scan.nextLine();
+                lineNumber++;
             }
-            return NonEmptyLineNumber;
+            return lineNumber;
         } catch (FileNotFoundException e) {
             throw new RuntimeException(e);
         }
@@ -138,7 +139,21 @@ public class GQM {
             JSONTokener tokener = new JSONTokener(inputStream);
             JSONObject jsonObj = new JSONObject(tokener);
             String projectPath = jsonObj.getString("PROJECT_PATH");
-            jls(projectPath);
+            File out = jls(projectPath);
+            List<List<String>> jlsOutlist = readCSV(out);
+            List<List<String>> outList = new ArrayList<>();
+            for (List<String> csvRow : jlsOutlist) {
+                String classPath = csvRow.get(0);
+                File classFile = new File(classPath);
+                int locInt = loc(classFile);
+                String loc = Integer.toString(locInt);
+                List<String> newRow = new ArrayList<>();
+                newRow.addAll(csvRow);
+                newRow.addAll(Collections.singleton(loc));
+                outList.add(newRow);
+            }
+            clearCSV(out);
+            writeCSV(out, outList);
         }
 
 
