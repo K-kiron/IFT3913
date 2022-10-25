@@ -211,8 +211,10 @@ public class MetricsCheck {
     static private void resultQ1(List<Double> percentage) {
         double average = 0;
         for (int i = 0; i < percentage.size(); i++) {
-            if (i == 1 || i == 3 || i == 5 || i == 6) {
+            if (i == 1 || i == 3 || i == 5 ) {
                 average += percentage.get(i);
+            }else if(i == 6){
+                average += 1 - percentage.get(i);
             }
         }
         average = average / 4;
