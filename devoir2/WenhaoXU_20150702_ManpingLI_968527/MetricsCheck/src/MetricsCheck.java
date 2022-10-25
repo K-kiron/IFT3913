@@ -129,7 +129,6 @@ public class MetricsCheck {
             } else {
                 LOCsum += Integer.parseInt(csvOutput.get(LOC));
                 CommentDensitySum += Double.parseDouble(csvOutput.get(CLOC)) / Double.parseDouble(csvOutput.get(LOC));
-                System.out.println(CommentDensitySum);
             }
             if (csvOutput.get(Jm).compareTo("n/a") == 0
                     || csvOutput.get(Jm).compareTo("#N/A") == 0) {
@@ -199,18 +198,6 @@ public class MetricsCheck {
                     count++;
                 }
 
-//                if (csvOutput.get(Integer.parseInt(result.get(2).get(i))).contains("%")) {
-//                    String temp = csvOutput.get(Integer.parseInt(result.get(2).get(i)));
-//                    temp = temp.substring(0, temp.length() - 1);
-//                    if (Double.parseDouble(temp) <= Double.parseDouble(result.get(0).get(i))) {
-//                        count++;
-//                    }
-//                } else {
-//                    if (Double.parseDouble(csvOutput.get(Integer.parseInt(result.get(2).get(i))))
-//                            <= Double.parseDouble(result.get(0).get(i))) {
-//                        count++;
-//                    }
-//                }
 
             }
             percentage.add((double) count / Integer.parseInt(result.get(1).get(i)));
@@ -295,8 +282,8 @@ public class MetricsCheck {
     }
 
     public static void main(String[] args) {
-        File file = new File("/Users/kironrothschild/Desktop/A2022/IFT3913/IFT3913_Git/" +
-                "devoir2/WenhaoXU_20150702_ManpingLI_968527/MetricsCheck/rawdata.csv");
+        File file = new File("/Users/kironrothschild/Desktop/A2022/IFT3913/IFT3913_Git/devoir2/" +
+                "WenhaoXU_20150702_ManpingLI_968527/MetricsCheck/rawdata.csv");
         List<List<String>> csvOutputs = convertCSVToArrayList(file);
         List<List<String>> result = average(csvOutputs);
         List<Double> percentage = judge(result, csvOutputs);
