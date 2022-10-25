@@ -16,13 +16,16 @@ public class MetricsCheck {
                 String line = scan.nextLine();
                 if (line.compareTo("") == 0)
                     continue;
-                //if there consist of "" in the line, delete them and set the number of "" with out ","
+                //if there consist of "" in the line, delete them as well as the "," inside the ""
                 //for exemple, "1,741" to 1741
                 if (line.contains("\"")) {
                     String[] lineArray = line.split(",");
                     for (int i = 0; i < lineArray.length; i++) {
                         if (lineArray[i].contains("\"")) {
+                            lineArray[i] = lineArray[i]+lineArray[i+1];
                             lineArray[i] = lineArray[i].replaceAll("\"", "");
+                            System.arraycopy(lineArray, i+2, lineArray, i+1, lineArray.length-i-2);
+                            lineArray = Arrays.copyOf(lineArray, lineArray.length-1);
                         }
                     }
                     line = String.join(",", lineArray);
@@ -85,7 +88,7 @@ public class MetricsCheck {
         int NOCcount = csvOutputs.size();
         int LOCsum = 0;
         int LOCcount = csvOutputs.size();
-        int CommentDensitySum = 0;
+        double CommentDensitySum = 0;
         int Jmcount = csvOutputs.size();
         int JTAcount = csvOutputs.size();
 
@@ -125,7 +128,8 @@ public class MetricsCheck {
                 LOCcount--;
             } else {
                 LOCsum += Integer.parseInt(csvOutput.get(LOC));
-                CommentDensitySum += Integer.parseInt(csvOutput.get(CLOC))/Integer.parseInt(csvOutput.get(LOC));
+                CommentDensitySum += Double.parseDouble(csvOutput.get(CLOC)) / Double.parseDouble(csvOutput.get(LOC));
+                System.out.println(CommentDensitySum);
             }
             if (csvOutput.get(Jm).compareTo("n/a") == 0
                     || csvOutput.get(Jm).compareTo("#N/A") == 0) {
@@ -181,24 +185,33 @@ public class MetricsCheck {
         for (int i = 0; i < result.get(0).size(); i++) {
             int count = 0;
             for (List<String> csvOutput : csvOutputs) {
-                if (csvOutput.get(Integer.parseInt(result.get(2).get(i))).compareTo("n/a") == 0
-                        || csvOutput.get(Integer.parseInt(result.get(2).get(i))).compareTo("#N/A") == 0) {
+                String value = csvOutput.get(Integer.parseInt(result.get(2).get(i)));
+                if (value.compareTo("n/a") == 0 || value.compareTo("#N/A") == 0) {
                     continue;
                 }
                 //if there consist of percentage, convert it
                 //for exemple, "92.31%" -> 0.9231, "90%" -> 0.9
-                if (csvOutput.get(Integer.parseInt(result.get(2).get(i))).contains("%")) {
-                    String temp = csvOutput.get(Integer.parseInt(result.get(2).get(i)));
-                    temp = temp.substring(0, temp.length() - 1);
-                    if (Double.parseDouble(temp) <= Double.parseDouble(result.get(0).get(i))) {
-                        count++;
-                    }
-                } else {
-                    if (Double.parseDouble(csvOutput.get(Integer.parseInt(result.get(2).get(i))))
-                            <= Double.parseDouble(result.get(0).get(i))) {
-                        count++;
-                    }
+                if (value.contains("%")) {
+                    value = value.substring(0, value.length() - 1);
+                    value = String.valueOf(Double.parseDouble(value) / 100);
                 }
+                if (Double.parseDouble(value) <= Double.parseDouble(result.get(0).get(i))) {
+                    count++;
+                }
+
+//                if (csvOutput.get(Integer.parseInt(result.get(2).get(i))).contains("%")) {
+//                    String temp = csvOutput.get(Integer.parseInt(result.get(2).get(i)));
+//                    temp = temp.substring(0, temp.length() - 1);
+//                    if (Double.parseDouble(temp) <= Double.parseDouble(result.get(0).get(i))) {
+//                        count++;
+//                    }
+//                } else {
+//                    if (Double.parseDouble(csvOutput.get(Integer.parseInt(result.get(2).get(i))))
+//                            <= Double.parseDouble(result.get(0).get(i))) {
+//                        count++;
+//                    }
+//                }
+
             }
             percentage.add((double) count / Integer.parseInt(result.get(1).get(i)));
         }
@@ -247,8 +260,10 @@ public class MetricsCheck {
     static private void resultQ3(List<Double> percentage) {
         double average = 0;
         for (int i = 0; i < percentage.size(); i++) {
-            if (i == 0 || i == 7 || i == 8) {
+            if (i == 0 || i == 8) {
                 average += percentage.get(i);
+            }else if(i == 7){
+                average += 1 - percentage.get(i);
             }
         }
         average = average / 3;
@@ -265,8 +280,10 @@ public class MetricsCheck {
     static private void resultQ4(List<Double> percentage) {
         double average = 0;
         for (int i = 0; i < percentage.size(); i++) {
-            if (i == 2 || i == 3 || i == 4 || i == 7) {
+            if (i == 2 || i == 3 || i == 4 ) {
                 average += percentage.get(i);
+            }else if(i == 7){
+                average += 1 - percentage.get(i);
             }
         }
         average = average / 4;
