@@ -216,7 +216,7 @@ public class MetricsCheck {
             }
         }
         average = average / 4;
-        if (average > 0.9) {
+        if (average >= 0.8) {
             System.out.println("Le niveau de documentation des classes est approprié à leur complexité.");
         } else {
             System.out.println("Le niveau de documentation des classes n'est pas approprié à leur complexité.");
@@ -234,7 +234,7 @@ public class MetricsCheck {
             }
         }
         average = average / 4;
-        if (average > 0.9) {
+        if (average >= 0.8) {
             System.out.println("La conception est bien modulaire.");
         } else {
             System.out.println("La conception n'est pas bien modulaire.");
@@ -254,7 +254,7 @@ public class MetricsCheck {
             }
         }
         average = average / 3;
-        if (average > 0.9) {
+        if (average >= 0.8) {
             System.out.println("Le code est mature.");
         } else {
             System.out.println("Le code n'est pas mature.");
@@ -274,7 +274,7 @@ public class MetricsCheck {
             }
         }
         average = average / 4;
-        if (average > 0.9) {
+        if (average >= 0.8) {
             System.out.println("Le code peut être testé bien automatiquement.");
         } else {
             System.out.println("Le code ne peut pas être testé bien automatiquement.");
