@@ -89,7 +89,6 @@ public class MetricsCheck {
         int Jmcount = csvOutputs.size();
         int JTAcount = csvOutputs.size();
 
-        int counti = 0;
         for (List<String> csvOutput : csvOutputs) {
             if (csvOutput.get(LCOM).compareTo("n/a") == 0
                     || csvOutput.get(LCOM).compareTo("#N/A") == 0) {
@@ -136,8 +135,6 @@ public class MetricsCheck {
                     || csvOutput.get(JTA).compareTo("#N/A") == 0) {
                 JTAcount--;
             }
-            System.out.println(counti);
-            counti++;
         }
 
         average.add(String.valueOf(LCOMSum / LCOMCount));
