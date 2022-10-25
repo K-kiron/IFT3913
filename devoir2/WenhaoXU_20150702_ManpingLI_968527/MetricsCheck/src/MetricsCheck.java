@@ -16,12 +16,23 @@ public class MetricsCheck {
                 String line = scan.nextLine();
                 if (line.compareTo("") == 0)
                     continue;
+                //if there consist of "" in the line, delete them and set the number of "" with out ","
+                //for exemple, "1,741" to 1741
+                if (line.contains("\"")) {
+                    String[] lineArray = line.split(",");
+                    for (int i = 0; i < lineArray.length; i++) {
+                        if (lineArray[i].contains("\"")) {
+                            lineArray[i] = lineArray[i].replaceAll("\"", "");
+                        }
+                    }
+                    line = String.join(",", lineArray);
+                }
                 List<String> lineList = Arrays.asList(line.split(","));
-                lineList.remove(0);
+//                lineList.remove(0);
                 csvOutputs.add(lineList);
             }
             scan.close();
-//            jlsOutputs.remove(0);
+            csvOutputs.remove(0);
             return csvOutputs;
         } catch (FileNotFoundException e) {
             throw new RuntimeException(e);
@@ -54,6 +65,8 @@ public class MetricsCheck {
             }
         }
 
+        csvOutputs.remove(0);
+
         List<String> average = new ArrayList<>();
         List<String> count = new ArrayList<>();
         List<String> index = new ArrayList<>();
@@ -76,6 +89,7 @@ public class MetricsCheck {
         int Jmcount = csvOutputs.size();
         int JTAcount = csvOutputs.size();
 
+        int counti = 0;
         for (List<String> csvOutput : csvOutputs) {
             if (csvOutput.get(LCOM).compareTo("n/a") == 0
                     || csvOutput.get(LCOM).compareTo("#N/A") == 0) {
@@ -122,6 +136,8 @@ public class MetricsCheck {
                     || csvOutput.get(JTA).compareTo("#N/A") == 0) {
                 JTAcount--;
             }
+            System.out.println(counti);
+            counti++;
         }
 
         average.add(String.valueOf(LCOMSum / LCOMCount));
@@ -131,7 +147,7 @@ public class MetricsCheck {
         average.add(String.valueOf(NOCsum / NOCcount));
         average.add(String.valueOf(LOCsum / LOCcount));
         average.add(String.valueOf(CommentDensitySum / LOCcount));
-        average.add("90%");
+        average.add("0.9");
         average.add("0");
 
         count.add(String.valueOf(LCOMCount));
@@ -172,9 +188,19 @@ public class MetricsCheck {
                         || csvOutput.get(Integer.parseInt(result.get(2).get(i))).compareTo("#N/A") == 0) {
                     continue;
                 }
-                if (Double.parseDouble(csvOutput.get(Integer.parseInt(result.get(2).get(i))))
-                        <= Double.parseDouble(result.get(0).get(i))) {
-                    count++;
+                //if there consist of percentage, convert it
+                //for exemple, "92.31%" -> 0.9231, "90%" -> 0.9
+                if (csvOutput.get(Integer.parseInt(result.get(2).get(i))).contains("%")) {
+                    String temp = csvOutput.get(Integer.parseInt(result.get(2).get(i)));
+                    temp = temp.substring(0, temp.length() - 1);
+                    if (Double.parseDouble(temp) <= Double.parseDouble(result.get(0).get(i))) {
+                        count++;
+                    }
+                } else {
+                    if (Double.parseDouble(csvOutput.get(Integer.parseInt(result.get(2).get(i))))
+                            <= Double.parseDouble(result.get(0).get(i))) {
+                        count++;
+                    }
                 }
             }
             percentage.add((double) count / Integer.parseInt(result.get(1).get(i)));
@@ -255,7 +281,8 @@ public class MetricsCheck {
     }
 
     public static void main(String[] args) {
-        File file = new File(args[0]);
+        File file = new File("/Users/kironrothschild/Desktop/A2022/IFT3913/IFT3913_Git/" +
+                "devoir2/WenhaoXU_20150702_ManpingLI_968527/MetricsCheck/rawdata.csv");
         List<List<String>> csvOutputs = convertCSVToArrayList(file);
         List<List<String>> result = average(csvOutputs);
         List<Double> percentage = judge(result, csvOutputs);
