@@ -1,7 +1,7 @@
 #Devoir2 IFT3913
-setwd("/Users/manpingli/Library/CloudStorage/OneDrive-Personal/maths_cs/IFT3913/devoirs/IFT3913/devoir3")
+setwd("/Users/kironrothschild/Desktop/A2022/IFT3913/IFT3913_Git/devoir3")
 #load("/Users/manpingli/Documents/ift3913/jfreechart-stats.csv")
-jfreechart.stats <-read.csv("/Users/manpingli/Documents/ift3913/jfreechart-stats.csv")
+jfreechart.stats <-read.csv("/Users/kironrothschild/Desktop/A2022/IFT3913/IFT3913_Git/devoir3/jfreechart-stats.csv")
 #T1.visualisez
 #DCP statistics
 data = jfreechart.stats[,2:4]
@@ -44,26 +44,35 @@ boxplot(data$NOCom,data=data$NOCom,horizontal = TRUE,main="NOCom boxplot", outli
 
 
 #T2.Etudiez les corrélations
+
+#delete outliers
+data2<-data[data$DCP<DCP_s,]
+data2<-data2[data2$DCP>DCP_i,]
+data2<-data2[data2$NCLOC<NCLOC_s,]
+data2<-data2[data2$NCLOC>NCLOC_i,]
+data2<-data2[data2$NOCom<NOCom_s,]
+data2<-data2[data2$NOCom>NOCom_i,]
+
 #NOCom vs NCLOC
-corr_NOCom_NCLOC=cor(data$NOCom,data$NCLOC,method = "spearman")
-linear_model1<-lm(data$NCLOC~data$NOCom)
+corr_NOCom_NCLOC=cor(data2$NOCom,data2$NCLOC,method = "spearman")
+linear_model1<-lm(data2$NCLOC~data2$NOCom)
 par(mfrow=c(1,1))
-plot( data$NOCom,data$NCLOC, xlab = "NOCom", ylab = "NCLOC", main = "Regression NCLOC sur NOCom")
+plot( data2$NOCom,data2$NCLOC, xlab = "NOCom", ylab = "NCLOC", main = "Regression NCLOC sur NOCom")
 abline( linear_model1)
-text(paste("Correlation:", round(cor(data$NOCom, data$NCLOC,method = "spearman"), 2)), x= 7, y = 2400)
+text(paste("Correlation:", round(cor(data2$NOCom, data2$NCLOC,method = "spearman"), 2)), x= 7, y = 400)
 intercept1<-linear_model1$coefficients[1]#a
 slope1<-linear_model1$coefficients[2]#b
-text(paste("Intercept:", round(intercept1,2)), x= 7, y = 2200)
-text(paste("Slope:", round(slope1,2)), x= 6, y = 2000)
+text(paste("Intercept:", round(intercept1,2)), x= 7, y = 300)
+text(paste("Slope:", round(slope1,2)), x= 6, y = 200)
 summary(linear_model1)
 
 
 #NOCom vs DCP
-corr_NOCom_DCP=cor(data$NOCom,data$DCP,method = "spearman")
-linear_model2<-lm(data$DCP~data$NOCom)
-plot( data$NOCom,data$DCP, xlab = "NOCom", ylab = "DCP", main = "Regression DCP sur NOCom")
+corr_NOCom_DCP=cor(data2$NOCom,data2$DCP,method = "spearman")
+linear_model2<-lm(data2$DCP~data2$NOCom)
+plot( data2$NOCom,data2$DCP, xlab = "NOCom", ylab = "DCP", main = "Regression DCP sur NOCom")
 abline( linear_model2)
-text(paste("Correlation:", round(cor(data$NOCom, data$DCP,method = "spearman"), 2)), x= 25, y = 80)
+text(paste("Correlation:", round(cor(data2$NOCom, data2$DCP,method = "spearman"), 2)), x= 25, y = 80)
 intercept2<-linear_model2$coefficients[1]#a
 slope2<-linear_model2$coefficients[2]#b
 text(paste("Intercept:", round(intercept2,2)), x= 25, y = 75)
