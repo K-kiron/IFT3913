@@ -57,26 +57,26 @@ data2<-data2[data2$NOCom>NOCom_i,]
 corr_NOCom_NCLOC=cor(data2$NOCom,data2$NCLOC,method = "spearman")
 linear_model1<-lm(data2$NCLOC~data2$NOCom)
 par(mfrow=c(1,1))
-plot( data2$NOCom,data2$NCLOC, xlab = "NOCom", ylab = "NCLOC", main = "Regression NCLOC sur NOCom")
+plot( data2$NOCom,data2$NCLOC, xlab = "NOCom", ylab = "NCLOC", main = "Regression NCLOC sur NOCom(Sans points extrêmes)")
 abline( linear_model1)
-text(paste("Correlation:", round(cor(data2$NOCom, data2$NCLOC,method = "spearman"), 2)), x= 7, y = 400)
+text(paste("Correlation:", round(cor(data2$NOCom, data2$NCLOC,method = "spearman"), 2)), x= 15, y = 100)
 intercept1<-linear_model1$coefficients[1]#a
 slope1<-linear_model1$coefficients[2]#b
-text(paste("Intercept:", round(intercept1,2)), x= 7, y = 300)
-text(paste("Slope:", round(slope1,2)), x= 6, y = 200)
+text(paste("Intercept:", round(intercept1,2)), x= 15, y = 75)
+text(paste("Slope:", round(slope1,2)), x= 15, y = 50)
 summary(linear_model1)
 
 
 #NOCom vs DCP
 corr_NOCom_DCP=cor(data2$NOCom,data2$DCP,method = "spearman")
 linear_model2<-lm(data2$DCP~data2$NOCom)
-plot( data2$NOCom,data2$DCP, xlab = "NOCom", ylab = "DCP", main = "Regression DCP sur NOCom")
+plot( data2$NOCom,data2$DCP, xlab = "NOCom", ylab = "DCP", main = "Regression DCP sur NOCom(Sans points extrêmes)")
 abline( linear_model2)
-text(paste("Correlation:", round(cor(data2$NOCom, data2$DCP,method = "spearman"), 2)), x= 25, y = 80)
+text(paste("Correlation:", round(cor(data2$NOCom, data2$DCP,method = "spearman"), 2)), x= 12, y = 90)
 intercept2<-linear_model2$coefficients[1]#a
 slope2<-linear_model2$coefficients[2]#b
-text(paste("Intercept:", round(intercept2,2)), x= 25, y = 75)
-text(paste("Slope:", round(slope2,2)), x= 25, y = 70)
+text(paste("Intercept:", round(intercept2,2)), x= 12, y = 85)
+text(paste("Slope:", round(slope2,2)), x= 12, y = 80)
 summary(linear_model2)
 
 #T3. Quasi-experience
