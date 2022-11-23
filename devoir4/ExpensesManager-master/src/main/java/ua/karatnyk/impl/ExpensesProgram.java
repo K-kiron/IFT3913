@@ -16,14 +16,14 @@ public class ExpensesProgram implements IExpensesProgram{
 	private String line;
 	private Map<Date, List<Expense>> expenses;
 	private boolean flag;
-	private JsonWorker manager;
+	private OfflineJsonWorker manager;
 	private CurrencyConversion conversion;
 	
 	public ExpensesProgram() {
 		consoleHelper = new ExpensesProgramAPI();
 		expenses = new TreeMap<>();
 		flag = true;
-		manager = new JsonWorker();
+		manager = new OfflineJsonWorker();
 		conversion = manager.parser();
 	}
 	//start application

@@ -8,6 +8,7 @@ import org.junit.Test;
 import ua.karatnyk.impl.CurrencyConversion;
 import ua.karatnyk.impl.ExpensesProgramAPI;
 import ua.karatnyk.impl.JsonWorker;
+import ua.karatnyk.impl.OfflineJsonWorker;
 
 public class ExpensesProgramAPITest {
 	
@@ -122,26 +123,26 @@ public class ExpensesProgramAPITest {
 
 	@Test
 	public void testCheckCurrency() {
-		conversion  = new JsonWorker().parser();
+		conversion  = new OfflineJsonWorker().parser();
 		boolean input = test.checkCurrency("USD", conversion);
 		assertTrue(input);
 	}
 	
 	@Test
 	public void testCheckCurrency2() {
-		conversion  = new JsonWorker().parser();
+		conversion  = new OfflineJsonWorker().parser();
 		boolean input = test.checkCurrency("eur", conversion);
 		assertTrue(input);
 	}
 	@Test
 	public void testCheckCurrency3() {
-		conversion  = new JsonWorker().parser();
+		conversion  = new OfflineJsonWorker().parser();
 		boolean input = test.checkCurrency("", conversion);
 		assertFalse(input);
 	}
 	@Test
 	public void testCheckCurrency4() {
-		conversion  = new JsonWorker().parser();
+		conversion  = new OfflineJsonWorker().parser();
 		boolean input = test.checkCurrency("hi", conversion);
 		assertFalse(input);
 	}
