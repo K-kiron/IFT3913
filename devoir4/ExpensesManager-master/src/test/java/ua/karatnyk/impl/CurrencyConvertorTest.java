@@ -1,4 +1,4 @@
-package ua.karatnyk;
+package ua.karatnyk.impl;
 
 import org.junit.Test;
 
