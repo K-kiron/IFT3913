@@ -153,4 +153,52 @@ public class CurrencyConvertorTest extends Object {
         assertTrue(message,output>0);
     }
 
+    //White box test
+    //Couverture des instructions
+    @Test
+    public void testConvert14() throws ParseException {
+        double amount=100;
+        String from="AUD";
+        String to="CAD";
+        double output=CurrencyConvertor.convert(amount,from,to, conversion);
+        String message = String.format("Convert %f %s to %s : %f",amount , from, to,output);
+        assertTrue(message,output>0);
+    }
+    @Test(expected = java.text.ParseException.class)
+    public void testConvert15() throws ParseException {
+        double amount=100;
+        String from=null;
+        String to="CAD";
+        CurrencyConvertor.convert(amount,from,to, conversion);
+    }
+
+    //couverture des arcs du graphe de flot de controle
+    @Test
+    public void testConvert16() throws ParseException {
+        double amount=100;
+        String from="USD";
+        String to="CAD";
+        double output=CurrencyConvertor.convert(amount,from,to, conversion);
+        String message = String.format("Convert %f %s to %s : %f",amount , from, to,output);
+        assertTrue(message,output>0);
+    }
+    @Test(expected = java.text.ParseException.class)
+    public void testConvert17() throws ParseException {
+        double amount=100;
+        String from=null;
+        String to="CAD";
+        CurrencyConvertor.convert(amount,from,to, conversion);
+    }
+    @Test(expected = java.text.ParseException.class)
+    public void testConvert18() throws ParseException {
+        double amount=100;
+        String from="CAD";
+        String to=null;
+        CurrencyConvertor.convert(amount,from,to, conversion);
+    }
+    //couverture des chemins independants du graphe de flot de controle
+
+
+
+
 }
